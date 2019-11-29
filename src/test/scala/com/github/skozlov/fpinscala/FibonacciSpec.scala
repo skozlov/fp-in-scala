@@ -1,8 +1,6 @@
 package com.github.skozlov.fpinscala
 
-import org.scalatest.{FlatSpec, Matchers}
-
-class FibonacciSpec extends FlatSpec with Matchers {
+class FibonacciSpec extends Spec {
 	"fibonacci" should "throw IllegalArgumentException if `number` argument is negative" in {
 		(the [IllegalArgumentException] thrownBy fibonacci(-1)).getMessage shouldBe "requirement failed: number is negative (-1)"
 		(the [IllegalArgumentException] thrownBy fibonacci(-1, (1, 2))).getMessage shouldBe "requirement failed: number is negative (-1)"

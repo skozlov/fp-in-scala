@@ -12,4 +12,16 @@ package object fpinscala {
 			case _ => fibonacci(number - 1, (seed._2, seed._1 + seed._2))
 		}
 	}
+
+	def isSorted[A](as: Array[A])(implicit ordering: Ordering[A]): Boolean = {
+		val lastIndex = as.length - 1
+
+		@scala.annotation.tailrec
+		def loop(startIndex: Int): Boolean = {
+			if (startIndex >= lastIndex) true
+			else ordering.lteq(as(startIndex), as(startIndex + 1)) && loop(startIndex + 1)
+		}
+
+		loop(0)
+	}
 }
