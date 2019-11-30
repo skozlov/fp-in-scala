@@ -29,4 +29,9 @@ package object fpinscala {
 	def curry[A, B, C](f: (A, B) => C): A => (B => C) = {
 		a => b => f(a, b)
 	}
+
+	//noinspection ScalaUnnecessaryParentheses
+	def uncurry[A, B, C](f: A => (B => C)): (A, B) => C = {
+		(a, b) => f(a)(b)
+	}
 }

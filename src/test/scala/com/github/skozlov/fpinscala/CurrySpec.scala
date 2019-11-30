@@ -8,4 +8,11 @@ class CurrySpec extends Spec {
 		val f2 = f(2)
 		f2(2) shouldBe 4
 	}
+
+	"uncurry" should "reverse the transformation of curry" in {
+		//noinspection ScalaUnnecessaryParentheses
+		val uncurried = uncurry((a: Int) => ((b: Int) => a + b))
+		uncurried(1, 2) shouldBe 3
+		uncurried(2, 2) shouldBe 4
+	}
 }
