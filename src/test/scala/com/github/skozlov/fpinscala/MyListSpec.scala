@@ -81,4 +81,14 @@ class MyListSpec extends Spec {
 		MyList() append MyList(1, 2, 3) shouldBe MyList(1, 2, 3)
 		MyList(1, 2, 3) append MyList(4, 5, 6) shouldBe MyList(1, 2, 3, 4, 5, 6)
 	}
+
+	"concat" should "concatenate lists" in {
+		MyList.concat(MyList()) shouldBe MyList()
+		MyList.concat(MyList(MyList())) shouldBe MyList()
+		MyList.concat(MyList(MyList(), MyList())) shouldBe MyList()
+		MyList.concat(MyList(MyList(1, 2))) shouldBe MyList(1, 2)
+		MyList.concat(MyList(MyList(1, 2), MyList())) shouldBe MyList(1, 2)
+		MyList.concat(MyList(MyList(), MyList(1, 2))) shouldBe MyList(1, 2)
+		MyList.concat(MyList(MyList(1, 2), MyList(3, 4))) shouldBe MyList(1, 2, 3, 4)
+	}
 }

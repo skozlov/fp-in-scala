@@ -77,4 +77,8 @@ object MyList {
 		case Cons(head, tail) => foldLeft(tail, f(seed, head))(f)
 		case _ => seed
 	}
+
+	def concat[A](lists: MyList[MyList[A]]): MyList[A] = {
+		lists.foldRight(MyList.empty[A]){(list, result) => list append result}
+	}
 }
