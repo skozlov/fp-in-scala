@@ -68,4 +68,10 @@ class MyListSpec extends Spec {
 		MyList("a", "b", "c").foldRight("d"){_ + _} shouldBe "abcd"
 		MyList.empty[String].foldRight("d"){_ + _} shouldBe "d"
 	}
+
+	"reverse" should "return elements in a reverse order" in {
+		MyList(1, 2, 3).reverse shouldBe MyList(3, 2, 1)
+		MyList(1).reverse shouldBe MyList(1)
+		MyList().reverse shouldBe MyList()
+	}
 }

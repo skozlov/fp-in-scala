@@ -3,6 +3,8 @@ package com.github.skozlov.fpinscala
 import scala.annotation.tailrec
 
 trait MyList[+A] {
+	import MyList._
+
 	def isEmpty: Boolean
 
 	def drop(n: Int): MyList[A]
@@ -13,7 +15,9 @@ trait MyList[+A] {
 
 	def foldLeft[B](seed: B)(f: (B, A) => B): B = MyList.foldLeft(this, seed)(f) // delegating to companion object to avoid non-tail recursion
 
-	def foldRight[B](seed: B)(f: (A, B) => B): B
+	def foldRight[B](seed: B)(f: (A, B) => B): B = reverse.foldLeft(seed){(b, a) => f(a, b)}
+
+	def reverse: MyList[A] = foldLeft(MyList.empty[A]){(result, a) => Cons(a, result)}
 }
 
 object MyList {
@@ -25,8 +29,6 @@ object MyList {
 		override def dropWhile(p: Nothing => Boolean): Nil.type = this
 
 		override def init: Nil.type = this
-
-		override def foldRight[B](seed: B)(f: (Nothing, B) => B): B = seed
 	}
 
 	case class Cons[+A](head: A, tail: MyList[A]) extends MyList[A] {
@@ -43,8 +45,6 @@ object MyList {
 		override def init: MyList[A] = {
 			if (tail.isEmpty) Nil else Cons(head, tail.init)
 		}
-
-		override def foldRight[B](seed: B)(f: (A, B) => B): B = f(head, tail.foldRight(seed)(f))
 	}
 
 	def apply(): Nil.type = Nil
