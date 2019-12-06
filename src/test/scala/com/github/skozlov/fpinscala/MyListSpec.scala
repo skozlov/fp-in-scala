@@ -52,4 +52,10 @@ class MyListSpec extends Spec {
 	it should "drop first elements until the predicate returns false" in {
 		MyList(1, 2, 3, 4) dropWhile {_ < 3} shouldBe MyList(3, 4)
 	}
+
+	"init" should "return all but last element" in {
+		MyList().init shouldBe MyList()
+		MyList(1).init shouldBe MyList()
+		MyList(1, 2, 3).init shouldBe MyList(1, 2)
+	}
 }

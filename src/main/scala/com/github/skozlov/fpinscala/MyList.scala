@@ -3,25 +3,39 @@ package com.github.skozlov.fpinscala
 import scala.annotation.tailrec
 
 trait MyList[+A] {
+	def isEmpty: Boolean
+
 	def drop(n: Int): MyList[A]
 
 	def dropWhile(p: A => Boolean): MyList[A]
+
+	def init: MyList[A]
 }
 
 object MyList {
 	case object Nil extends MyList[Nothing] {
+		override def isEmpty: Boolean = true
+
 		override def drop(n: Int): Nil.type = this
 
 		override def dropWhile(p: Nothing => Boolean): Nil.type = this
+
+		override def init: Nil.type = this
 	}
 
 	case class Cons[+A](head: A, tail: MyList[A]) extends MyList[A] {
+		override def isEmpty: Boolean = false
+
 		override def drop(n: Int): MyList[A] = {
 			MyList.drop(this, n) // delegating to companion object to avoid non-tail recursion
 		}
 
 		override def dropWhile(p: A => Boolean): MyList[A] = {
 			MyList.dropWhile(this, p) // delegating to companion object to avoid non-tail recursion
+		}
+
+		override def init: MyList[A] = {
+			if (tail.isEmpty) Nil else Cons(head, tail.init)
 		}
 	}
 
