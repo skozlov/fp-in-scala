@@ -91,4 +91,9 @@ class MyListSpec extends Spec {
 		MyList.concat(MyList(MyList(), MyList(1, 2))) shouldBe MyList(1, 2)
 		MyList.concat(MyList(MyList(1, 2), MyList(3, 4))) shouldBe MyList(1, 2, 3, 4)
 	}
+
+	"map" should "transform each element" in {
+		MyList(1, 2, 3) map {_ * 2} shouldBe MyList(2, 4, 6)
+		MyList.empty[Int] map {_ * 2} shouldBe MyList()
+	}
 }
