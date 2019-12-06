@@ -101,4 +101,10 @@ class MyListSpec extends Spec {
 		MyList(1, 3, 5) flatMap {x => MyList(x, x + 1)} shouldBe MyList(1, 2, 3, 4, 5, 6)
 		MyList.empty[Int] flatMap {x => MyList(x, x + 1)} shouldBe MyList()
 	}
+
+	"filter" should "remove all elements unless they satisfy a given predicate" in {
+		MyList(1, 2, 3) filter {_ % 2 != 0} shouldBe MyList(1, 3)
+		MyList(2, 4) filter {_ % 2 != 0} shouldBe MyList()
+		MyList.empty[Int] filter {_ % 2 != 0} shouldBe MyList()
+	}
 }

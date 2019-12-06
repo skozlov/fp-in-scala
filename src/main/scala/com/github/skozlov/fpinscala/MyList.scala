@@ -24,6 +24,10 @@ trait MyList[+A] {
 	def map[B](f: A => B): MyList[B] = foldRight(MyList.empty[B]){(a, result) => Cons(f(a), result)}
 
 	def flatMap[B](f: A => MyList[B]): MyList[B] = foldRight(MyList.empty[B]){(a, result) => f(a) append result}
+
+	def filter(p: A => Boolean): MyList[A] = foldRight(MyList.empty[A]){
+		(a, result) => if (p(a)) Cons(a, result) else result
+	}
 }
 
 object MyList {
