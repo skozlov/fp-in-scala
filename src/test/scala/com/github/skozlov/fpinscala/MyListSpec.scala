@@ -58,4 +58,9 @@ class MyListSpec extends Spec {
 		MyList(1).init shouldBe MyList()
 		MyList(1, 2, 3).init shouldBe MyList(1, 2)
 	}
+
+	"foldRight" should "collapse right to left" in {
+		MyList("a", "b", "c").foldRight("d"){_ + _} shouldBe "abcd"
+		MyList.empty[String].foldRight("d"){_ + _} shouldBe "d"
+	}
 }
