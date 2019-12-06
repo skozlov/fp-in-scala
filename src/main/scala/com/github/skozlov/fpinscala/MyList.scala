@@ -22,6 +22,8 @@ trait MyList[+A] {
 	def append[B >: A](bs: MyList[B]): MyList[B] = foldRight(bs){Cons(_, _)}
 
 	def map[B](f: A => B): MyList[B] = foldRight(MyList.empty[B]){(a, result) => Cons(f(a), result)}
+
+	def flatMap[B](f: A => MyList[B]): MyList[B] = foldRight(MyList.empty[B]){(a, result) => f(a) append result}
 }
 
 object MyList {

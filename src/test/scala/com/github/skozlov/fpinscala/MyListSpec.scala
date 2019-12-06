@@ -96,4 +96,9 @@ class MyListSpec extends Spec {
 		MyList(1, 2, 3) map {_ * 2} shouldBe MyList(2, 4, 6)
 		MyList.empty[Int] map {_ * 2} shouldBe MyList()
 	}
+
+	"flatMap" should "map each element onto a least and flatten the result" in {
+		MyList(1, 3, 5) flatMap {x => MyList(x, x + 1)} shouldBe MyList(1, 2, 3, 4, 5, 6)
+		MyList.empty[Int] flatMap {x => MyList(x, x + 1)} shouldBe MyList()
+	}
 }
