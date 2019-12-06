@@ -18,6 +18,8 @@ trait MyList[+A] {
 	def foldRight[B](seed: B)(f: (A, B) => B): B = reverse.foldLeft(seed){(b, a) => f(a, b)}
 
 	def reverse: MyList[A] = foldLeft(MyList.empty[A]){(result, a) => Cons(a, result)}
+
+	def append[B >: A](bs: MyList[B]): MyList[B] = foldRight(bs){Cons(_, _)}
 }
 
 object MyList {

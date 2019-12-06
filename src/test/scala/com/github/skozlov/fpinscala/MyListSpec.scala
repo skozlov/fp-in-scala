@@ -74,4 +74,11 @@ class MyListSpec extends Spec {
 		MyList(1).reverse shouldBe MyList(1)
 		MyList().reverse shouldBe MyList()
 	}
+
+	"append" should "append 2 lists" in {
+		MyList() append MyList() shouldBe MyList()
+		MyList(1, 2, 3) append MyList() shouldBe MyList(1, 2, 3)
+		MyList() append MyList(1, 2, 3) shouldBe MyList(1, 2, 3)
+		MyList(1, 2, 3) append MyList(4, 5, 6) shouldBe MyList(1, 2, 3, 4, 5, 6)
+	}
 }
