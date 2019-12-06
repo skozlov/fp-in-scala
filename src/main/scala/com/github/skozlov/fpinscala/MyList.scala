@@ -11,6 +11,8 @@ trait MyList[+A] {
 
 	def init: MyList[A]
 
+	def foldLeft[B](seed: B)(f: (B, A) => B): B = MyList.foldLeft(this, seed)(f) // delegating to companion object to avoid non-tail recursion
+
 	def foldRight[B](seed: B)(f: (A, B) => B): B
 }
 
@@ -66,5 +68,11 @@ object MyList {
 	def dropWhile[A](list: MyList[A], p: A => Boolean): MyList[A] = list match {
 		case Cons(head, tail) if p(head) => dropWhile(tail, p)
 		case _ => list
+	}
+
+	@tailrec
+	def foldLeft[A, B](list: MyList[A], seed: B)(f: (B, A) => B): B = list match {
+		case Cons(head, tail) => foldLeft(tail, f(seed, head))(f)
+		case _ => seed
 	}
 }
