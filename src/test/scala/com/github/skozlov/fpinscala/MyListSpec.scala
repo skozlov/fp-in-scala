@@ -107,4 +107,13 @@ class MyListSpec extends Spec {
 		MyList(2, 4) filter {_ % 2 != 0} shouldBe MyList()
 		MyList.empty[Int] filter {_ % 2 != 0} shouldBe MyList()
 	}
+
+	"zip" should "transform each pair with the same index" in {
+		MyList.zip(MyList(1, 2, 3), MyList(10, 20, 30))(_ + _, identity, identity) shouldBe MyList(11, 22, 33)
+		MyList.zip(MyList(1, 2, 3), MyList(10, 20))(_ + _, identity, identity) shouldBe MyList(11, 22, 3)
+		MyList.zip(MyList(1, 2), MyList(10, 20, 30))(_ + _, identity, identity) shouldBe MyList(11, 22, 30)
+		MyList.zip(MyList(1, 2, 3), MyList.empty[Int])(_ + _, identity, identity) shouldBe MyList(1, 2, 3)
+		MyList.zip(MyList.empty[Int], MyList(1, 2, 3))(_ + _, identity, identity) shouldBe MyList(1, 2, 3)
+		MyList.zip(MyList.empty[Int], MyList.empty[Int])(_ + _, identity, identity) shouldBe MyList()
+	}
 }

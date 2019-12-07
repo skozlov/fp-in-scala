@@ -2,7 +2,7 @@ package com.github.skozlov.fpinscala
 
 import scala.annotation.tailrec
 
-trait MyList[+A] {
+sealed trait MyList[+A] {
 	import MyList._
 
 	def isEmpty: Boolean
@@ -88,5 +88,17 @@ object MyList {
 
 	def concat[A](lists: MyList[MyList[A]]): MyList[A] = {
 		lists.foldRight(MyList.empty[A]){(list, result) => list append result}
+	}
+
+	def zip[A, B, C](as: MyList[A], bs: MyList[B])(f: (A, B) => C, fa: A => C, fb: B => C): MyList[C] = {
+		@tailrec
+		def zipReverse(as: MyList[A], bs: MyList[B], result: MyList[C]): MyList[C] = (as, bs) match {
+			case (Nil, Nil) => result
+			case (Cons(headA, tailA), Cons(headB, tailB)) => zipReverse(tailA, tailB, Cons(f(headA, headB), result))
+			case (Cons(headA, tailA), Nil) => zipReverse(tailA, Nil, Cons(fa(headA), result))
+			case (Nil, Cons(headB, tailB)) => zipReverse(Nil, tailB, Cons(fb(headB), result))
+		}
+
+		zipReverse(as, bs, MyList()).reverse
 	}
 }
