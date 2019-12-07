@@ -40,6 +40,8 @@ sealed trait Tree[+A]{
 
 		fold(List(Start(this)))
 	}
+
+	def map[B](f: A => B): Tree[B] = fold(empty[B]){(value, left, right) => Branch(f(value), left, right)}
 }
 
 object Tree {

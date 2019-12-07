@@ -24,4 +24,11 @@ class TreeSpec extends Spec {
 		Branch(1, leaf(2), Nil).depth shouldBe 2
 		Branch(1, leaf(2), Branch(3, leaf(4), Nil)).depth shouldBe 3
 	}
+
+	"map" should "transform each element but keep structure the same" in {
+		Tree.empty[Int] map {_ * 2} shouldBe Nil
+		leaf(1) map {_ * 2} shouldBe leaf(2)
+		Branch(1, leaf(2), Nil) map {_ * 2} shouldBe Branch(2, leaf(4), Nil)
+		Branch(1, leaf(2), leaf(3)) map {_ * 2} shouldBe Branch(2, leaf(4), leaf(6))
+	}
 }
