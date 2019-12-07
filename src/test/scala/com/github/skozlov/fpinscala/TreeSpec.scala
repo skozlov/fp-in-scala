@@ -16,4 +16,12 @@ class TreeSpec extends Spec {
 		max(Branch(0, leaf(1), leaf(2))) shouldBe 2
 		max(Branch(2, leaf(0), leaf(1))) shouldBe 2
 	}
+
+	"depth" should "return number of values in the longest path from the root to a leaf" in {
+		Nil.depth shouldBe 0
+		leaf(1).depth shouldBe 1
+		Branch(1, leaf(2), leaf(3)).depth shouldBe 2
+		Branch(1, leaf(2), Nil).depth shouldBe 2
+		Branch(1, leaf(2), Branch(3, leaf(4), Nil)).depth shouldBe 3
+	}
 }
