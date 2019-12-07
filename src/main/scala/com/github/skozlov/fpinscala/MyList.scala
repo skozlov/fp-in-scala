@@ -101,4 +101,36 @@ object MyList {
 
 		zipReverse(as, bs, MyList()).reverse
 	}
+
+	@tailrec
+	def hasSubsequence[A](sup: MyList[A], sub: MyList[A]): Boolean = {
+		if (sub.isEmpty) {
+			true
+		} else {
+			sup match {
+				case Nil => false
+				case Cons(_, supTail) =>
+					@tailrec
+					def hasPrefix(sup: MyList[A], sub: MyList[A]): (Boolean, Boolean) = (sup, sub) match {
+						case (Nil, Cons(_, _)) => (false, true)
+						case (Cons(supHead, supTail), Cons(subHead, subTail)) =>
+							if (supHead == subHead) {
+								hasPrefix(supTail, subTail)
+							} else {
+								(false, false)
+							}
+						case (_, Nil) => (true, false)
+					}
+
+					val (has, reachedSupEnd) = hasPrefix(sup, sub)
+					if (has) {
+						true
+					} else if (reachedSupEnd) {
+						false
+					} else {
+						hasSubsequence(supTail, sub)
+					}
+			}
+		}
+	}
 }

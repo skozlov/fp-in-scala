@@ -1,5 +1,7 @@
 package com.github.skozlov.fpinscala
 
+import com.github.skozlov.fpinscala.MyList.hasSubsequence
+
 class MyListSpec extends Spec {
 	"apply" should "return Nil if no arguments passed" in {
 		val list: MyList.Nil.type = MyList()
@@ -115,5 +117,15 @@ class MyListSpec extends Spec {
 		MyList.zip(MyList(1, 2, 3), MyList.empty[Int])(_ + _, identity, identity) shouldBe MyList(1, 2, 3)
 		MyList.zip(MyList.empty[Int], MyList(1, 2, 3))(_ + _, identity, identity) shouldBe MyList(1, 2, 3)
 		MyList.zip(MyList.empty[Int], MyList.empty[Int])(_ + _, identity, identity) shouldBe MyList()
+	}
+
+	"hasSubsequence" should "return true iff the first list contains the second one a a subsequence" in {
+		hasSubsequence(MyList(1, 2, 3, 4), MyList(2, 3)) shouldBe true
+		hasSubsequence(MyList(1, 2, 3, 4), MyList(1, 3)) shouldBe false
+		hasSubsequence(MyList(1, 2, 3, 4), MyList(3, 2)) shouldBe false
+		hasSubsequence(MyList(1, 2, 3, 4), MyList(1, 2, 3, 4)) shouldBe true
+		hasSubsequence(MyList(2, 3), MyList(1, 2, 3, 4)) shouldBe false
+		hasSubsequence(MyList(2, 3), MyList(2, 3, 4)) shouldBe false
+		hasSubsequence(MyList(), MyList()) shouldBe true
 	}
 }
